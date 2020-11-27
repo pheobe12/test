@@ -1,0 +1,37 @@
+dist: focal
+language: go
+go:
+  - 1.13.4
+
+jobs:
+  include:
+    - arch: amd64
+      dist: xenial
+      stage: test 
+      name: "Integration test 0"
+      install: skip
+      script:
+        - sudo apt-get install -y net-tools
+        - sudo netstat -tulpn
+        - sudo netstat -tulpn | grep "10010"
+    - arch: arm64-graviton
+      dist: focal
+      virt: vm
+      group: edge
+      stage: test
+      name: "Integration test 0"
+      install: skip
+      script:
+        - sudo apt-get install -y net-tools
+        - sudo mkdir -p /etc/systemd/system/docker.service.d
+        - sudo cp override.conf /etc/systemd/system/docker.service.d/override.conf
+        - service docker status
+        - sudo systemctl daemon-reload
+        - sudo service docker stop
+        - service docker status
+        - sudo service docker start
+        #- sudo systemctl restart docker
+        - service docker status
+        #- sudo netstat -tulpn
+        #- sudo netstat -tulpn | grep "10010"
+        - sudo dockerd --debug
