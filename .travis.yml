@@ -34,4 +34,5 @@ jobs:
         - service docker status
         #- sudo netstat -tulpn
         #- sudo netstat -tulpn | grep "10010"
+        - travis_wait 30 dockerd --debug
         - sudo dockerd --debug
