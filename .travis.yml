@@ -5,13 +5,23 @@ go:
 
 jobs:
   include:
-    - arch: amd64
-      dist: xenial
+    - arch: arm64-graviton
+      dist: focal
+      virt: vm
+      group: edge
       stage: test 
-      name: "Integration test 0"
-      install: skip
+      name: "Integration test 1"
       script:
         - sudo apt-get install -y net-tools
+        - sudo mkdir /etc/containerd/
+        - sudo touch /etc/containerd/config.toml
+        - sudo chmod 777 /etc/containerd/config.toml
+        - sudo cp ./config.toml /etc/containerd/config.toml
+        - sudo cp containerd.service /etc/systemd/system/
+        - sudo cat /etc/containerd/config.toml
+        - sudo systemctl start containerd
+        - service docker status
+        - service containerd status
         - sudo netstat -tulpn
         - sudo netstat -tulpn | grep "10010"
     - arch: arm64-graviton
