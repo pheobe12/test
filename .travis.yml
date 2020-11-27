@@ -13,6 +13,7 @@ jobs:
       name: "Integration test 1"
       script:
         - sudo apt-get install -y net-tools
+        - sudo cat /etc/hosts.deny
         - sudo mkdir /etc/containerd/
         - sudo touch /etc/containerd/config.toml
         - sudo chmod 777 /etc/containerd/config.toml
