@@ -42,7 +42,9 @@ jobs:
         - sudo service docker start
         #- sudo systemctl restart docker
         - service docker status
+        - sudo systemctl status docker.service
+        - sudo journalctl -xe
         #- sudo netstat -tulpn
         #- sudo netstat -tulpn | grep "10010"
-        - travis_wait 30 dockerd --debug
-        - sudo dockerd --debug
+        #- travis_wait 30 dockerd --debug
+        #- sudo dockerd --debug
